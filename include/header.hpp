@@ -6,12 +6,12 @@
 #include <boost/filesystem.hpp>
 #include <string.h>
 #include <map>
- #include <string>
+#include <string>
 using boost::filesystem::path;
-using boost::filesystem::directory_entry;
-using boost::filesystem::directory_iterator;
+using boost::filesystem::directory_entry;//
+using boost::filesystem::directory_iterator;//
 using std::map;
-struct characteristics
+struct characteristics //характкер. владельца, даты, кол-во ссылок
 {
     std::string _owner;
     std::string _date;
@@ -70,7 +70,7 @@ public:
 
     bool check_format(const std::string& str)
     {
-        if (str.find("balance_") != 0)
+        if (str.find("balance_") != 0) //if файл нач. не с balance_
         {
             return false;
         } else {
@@ -126,30 +126,26 @@ public:
                 std::string str = boost::filesystem::path(x.path()).string();
                 read_dir(x.path());
             }
-            if (is_symlink(x))
-            {
-                path tmp = read_symlink(x);
-            }
-            if (is_regular_file(x) == true)
+            if (is_regular_file(x) == true) // проверка на файл
             {
                 if (check_format(boost::filesystem::basename
                 (x.path().filename())
                 + boost::filesystem::extension
                 (x.path().extension()))
-                == true)
+                == true) // на формат
                 {
                     _owner =
                     boost::filesystem::path
-                    (x.path().string()).parent_path().filename().string();
+                    (x.path().string()).parent_path().filename().string(); // прис. владельца
                     if (checker.find(_account) != checker.end())
                     {
                         ++checker[_account]._count;
-                        if (checker[_account]._date < _date)
+                        if (checker[_account]._date < _date)  // проверка на дату
                         {
                             checker[_account]._date = _date;
                             checker[_account]._owner = _owner;
                         }
-                    } else {
+                    } else { // создание нового объекта
                         struct characteristics a(_owner , _date , 1);
                         checker.insert({_account , a});
                     }
