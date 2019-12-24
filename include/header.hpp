@@ -136,11 +136,13 @@ public:
                 {
                     _owner =
                     boost::filesystem::path
-                    (x.path().string()).parent_path().filename().string(); // прис. владельца
+                    (x.path().string()).parent_path().filename().string();
+                    // прис. владельца
                     if (checker.find(_account) != checker.end())
                     {
                         ++checker[_account]._count;
-                        if (checker[_account]._date < _date)  // проверка на дату
+                        if (checker[_account]._date <
+                            _date)// проверка на дату
                         {
                             checker[_account]._date = _date;
                             checker[_account]._owner = _owner;
